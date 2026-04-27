@@ -125,11 +125,9 @@ def _get_model(name: str):
 
 
 #  Endpoints 
-
-@app.get("/health", tags=["Health"])
-async def health_check():
-    """Health check endpoint."""
-    return {"status": "ok"}
+@app.get("/")
+def read_root():
+    return {"message": "Fake News Detection API is running. Go to /docs to test the system."}
 
 
 @app.post("/predict", response_model=PredictResponse, tags=["Prediction"])
