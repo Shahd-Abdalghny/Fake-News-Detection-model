@@ -126,6 +126,10 @@ def _get_model(name: str):
 
 #  Endpoints 
 
+@app.get("/health", tags=["Health"])
+async def health_check():
+    """Health check endpoint."""
+    return {"status": "ok"}
 
 
 @app.post("/predict", response_model=PredictResponse, tags=["Prediction"])
