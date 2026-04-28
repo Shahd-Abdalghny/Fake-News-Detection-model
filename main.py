@@ -3,7 +3,7 @@ import string
 import pickle
 import os
 from contextlib import asynccontextmanager
-
+from fastapi.middleware.cors import CORSMiddleware
 import nltk
 from nltk import word_tokenize
 from nltk.stem import WordNetLemmatizer
@@ -60,16 +60,28 @@ async def lifespan(app: FastAPI):
 
 
 #  App
+origins = [
+    "http://localhost:5173",
+]
+
 app = FastAPI(
     title="Fake News Detection API",
+    
     description=(
-        "Detect whether a news article is **real** or **fake** using four "
+        "Detect whether a news article is real or fake using four "
         "classical ML models trained with TF-IDF features."
     ),
     version="1.0.0",
     lifespan=lifespan,
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Schemas
 class PredictRequest(BaseModel):
